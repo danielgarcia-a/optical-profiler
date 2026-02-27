@@ -1,3 +1,13 @@
+/**
+ * Home.jsx
+ *
+ * Main dashboard component. Displays real-time oil and water level
+ * monitoring for a selected tank, including sensor status, historical
+ * chart and visual tank diagram.
+ *
+ * Data is fetched from Supabase and refreshed every 5 seconds.
+ */
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../helper/supabaseClient';
@@ -10,18 +20,18 @@ const Home = () => {
   const navigate = useNavigate();
 
   // Tank selection
-  const [selectedTank, setSelectedTank]           = useState(null);
-  const [allTanks, setAllTanks]                   = useState([]);
-  const [numSamples, setNumSamples]               = useState(390);
+  const [selectedTank, setSelectedTank] = useState(null);
+  const [allTanks, setAllTanks] = useState([]);
+  const [numSamples, setNumSamples] = useState(390);
 
   // Selected tank configuration
-  const [tankHeight, setTankHeight]               = useState(100);
+  const [tankHeight, setTankHeight] = useState(100);
   const [operationalCapacity, setOperationalCapacity] = useState(0);
 
   // Chart data series
-  const [oilValues, setOilValues]     = useState([]);
+  const [oilValues, setOilValues] = useState([]);
   const [waterValues, setWaterValues] = useState([]);
-  const [timeValues, setTimeValues]   = useState([]);
+  const [timeValues, setTimeValues] = useState([]);
 
   // Current levels for Tank component [oil, water]
   const [levels, setLevels] = useState([0, 0]);
@@ -43,7 +53,7 @@ const Home = () => {
     if (selectedTank === null) return;
 
     const fetchData = async () => {
-      // 1) Fetch tank configuration
+      // 1) Fetch tank configuration (height and operational capacity)
       const { data: tankData, error: tankError } = await supabase
         .from('Tanque')
         .select('altura_tanque, capacidade_operacional')
@@ -85,8 +95,8 @@ const Home = () => {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
+    const interval = setInterval(fetchData, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);           // Cleanup on unmount
   }, [selectedTank, numSamples]);
 
   // Convert absolute values to percentage relative to tank height
@@ -94,6 +104,10 @@ const Home = () => {
     tankHeight > 0 ? (v / tankHeight) * 100 : 0
   );
 
+  /**
+   * Updates the number of samples to display in the chart.
+   * Ignores invalid or non-positive values.
+   */
   const handleNumSamplesChange = (e) => {
     const value = Number(e.target.value);
     if (Number.isFinite(value) && value >= 1) {
@@ -101,6 +115,7 @@ const Home = () => {
     }
   };
 
+  /** Signs the user out and redirects to the login page. */
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/');
@@ -161,7 +176,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Right column: tank */}
+        {/* Right column: tank diagram */}
         <div className="right-col">
           <h2 className="col-title">Water & Oil Levels</h2>
           <Tank

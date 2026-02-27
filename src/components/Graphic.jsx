@@ -31,7 +31,7 @@ const Graphic = ({ xValues, oilValues, waterValues }) => {
     type: 'scatter',
     mode: 'lines+markers',
     marker: { color: COLOR_OIL },
-    line:   { color: COLOR_OIL },
+    line: { color: COLOR_OIL },
     name: 'Oil',
   };
 
@@ -42,7 +42,7 @@ const Graphic = ({ xValues, oilValues, waterValues }) => {
     type: 'scatter',
     mode: 'lines+markers',
     marker: { color: COLOR_WATER },
-    line:   { color: COLOR_WATER },
+    line: { color: COLOR_WATER },
     name: 'Water',
   };
 
@@ -80,8 +80,8 @@ const Graphic = ({ xValues, oilValues, waterValues }) => {
 };
 
 Graphic.propTypes = {
-  xValues:     PropTypes.arrayOf(PropTypes.string).isRequired,
-  oilValues:   PropTypes.arrayOf(PropTypes.number).isRequired,
+  xValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  oilValues: PropTypes.arrayOf(PropTypes.number).isRequired,
   waterValues: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 

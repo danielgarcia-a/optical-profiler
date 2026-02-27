@@ -14,7 +14,7 @@
   overflow-x: hidden;
 }
 
-/* ── Header ─────────────────────────────────── */
+/* Header */
 .header {
   background: linear-gradient(
     90deg,
@@ -75,7 +75,7 @@
   transform: scale(1.02);
 }
 
-/* ── Main grid ───────────────────────────────── */
+/* Main grid */
 main.grap-tank-grid {
   flex: 1;
   display: grid;
@@ -86,7 +86,7 @@ main.grap-tank-grid {
   width: 100%;
 }
 
-/* ── Colunas ─────────────────────────────────── */
+/* Columns */
 .left-col,
 .right-col {
   display: flex;
@@ -96,7 +96,7 @@ main.grap-tank-grid {
   min-width: 0;
 }
 
-/* Títulos centrados */
+/* Column titles */
 .col-title {
   font-size: 1.2rem;
   font-weight: 700;
@@ -105,12 +105,13 @@ main.grap-tank-grid {
   width: 100%;
 }
 
+/* Chart wrapper */
 .graphic-wrapper {
   width: 100%;
   min-width: 0;
 }
 
-/* ── Controle de amostras ─────────────────────── */
+/* Samples control */
 .samples-control {
   display: flex;
   align-items: center;
@@ -127,7 +128,7 @@ main.grap-tank-grid {
   font-size: 0.9rem;
 }
 
-/* ── Footer ──────────────────────────────────── */
+/* Footer */
 footer#footer {
   background: linear-gradient(
     180deg,
