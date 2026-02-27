@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  text-shadow: #000 1px 1px;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.3s ease;
+}
+
+.login-background {
+  background-image: url('./assets/fundo6.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.home-background {
+  background-color: rgb(223, 244, 253);
+}

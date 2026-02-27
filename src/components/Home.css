@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  text-shadow: none;
+}
+
+.container-home {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ── Header ─────────────────────────────────── */
+.header {
+  background: linear-gradient(
+    90deg,
+    rgba(1, 194, 243, 1) 0%,
+    rgba(9, 9, 121, 1) 100%
+  );
+  display: flex;
+  width: 100%;
+  height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.search-container select {
+  width: 260px;
+  min-height: 40px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-weight: bold;
+  text-shadow: none;
+  cursor: pointer;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-buttons button {
+  background-color: #0077b6;
+  color: white;
+  border: 1px solid #005f8a;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.2s, transform 0.1s;
+  text-shadow: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.nav-buttons button:hover {
+  background-color: #005f8a;
+  transform: scale(1.02);
+}
+
+/* ── Main grid ───────────────────────────────── */
+main.grap-tank-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 2rem;
+  padding: 76px 32px 32px;
+  align-items: start;
+  width: 100%;
+}
+
+/* ── Colunas ─────────────────────────────────── */
+.left-col,
+.right-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+/* Títulos centrados */
+.col-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-align: center;
+  width: 100%;
+}
+
+.graphic-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ── Controle de amostras ─────────────────────── */
+.samples-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  align-self: flex-start;
+}
+
+.samples-control input {
+  width: 80px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* ── Footer ──────────────────────────────────── */
+footer#footer {
+  background: linear-gradient(
+    180deg,
+    rgba(1, 194, 243, 1) 0%,
+    rgba(9, 9, 121, 1) 100%
+  );
+  color: white;
+  text-align: center;
+  padding: 16px;
+  margin-top: auto;
+}

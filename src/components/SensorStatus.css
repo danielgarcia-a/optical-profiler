@@ -1,0 +1,92 @@
+/* petrobras/src/components/SensorStatus.css */
+
+.sensor-status-container {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  background-color: #fff;
+
+  /* Duraciones/easing sincronizadas con JS (MIN_MASK_MS) */
+  --ss-ease-in: cubic-bezier(0.16, 1, 0.3, 1);   /* entrada suave y rápida */
+  --ss-ease-out: cubic-bezier(0.4, 0, 0.2, 1);   /* salida breve */
+  --ss-dur-in: 200ms;   /* ↓ antes 420ms → aparece más rápido */
+  --ss-dur-out: 120ms;  /* salida algo más corta */
+  --ss-shift: 3px;      /* desplazamiento sutil */
+  --ss-blur: 0.5px;     /* blur mínimo (o pon 0 si quieres) */
+}
+
+.sensor-status-item {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  transition:
+    background-color var(--ss-dur-in) var(--ss-ease-in),
+    box-shadow var(--ss-dur-in) var(--ss-ease-in),
+    color var(--ss-dur-in) var(--ss-ease-in);
+}
+
+.sensor-status-separator {
+  width: 1px;
+  background-color: #ccc;
+}
+
+.label {
+  font-size: 12px;
+  color: #555;
+}
+
+.value {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 4px;
+
+  /* Números tabulares: menos micro-saltos al actualizar */
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: "tnum";
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+}
+
+/* Estados de tráfico */
+.traffic-green { background-color: #d4edda; }
+.traffic-yellow { background-color: #fff3cd; }
+.traffic-red { background-color: #f8d7da; }
+.traffic-blue { background-color: #79baff; }
+
+/* Transición en valores */
+.sensor-status-item .value {
+  display: inline-block;
+  min-width: 3.4ch; /* estabilidad de layout */
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+  filter: blur(0);
+  will-change: opacity, transform, filter;
+  backface-visibility: hidden;
+
+  transition:
+    opacity var(--ss-dur-in) var(--ss-ease-in),
+    transform var(--ss-dur-in) var(--ss-ease-in),
+    filter var(--ss-dur-in) var(--ss-ease-in);
+  transition-delay: 0ms; /* sincronizados */
+}
+
+/* Durante carga/mascara: fade-out breve y uniforme */
+.sensor-status-container.is-loading .value {
+  opacity: 0;
+  transform: translateY(var(--ss-shift)) translateZ(0);
+  filter: blur(var(--ss-blur));
+  transition-duration: var(--ss-dur-out);
+  transition-timing-function: var(--ss-ease-out);
+  transition-delay: 0ms;
+}
+
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .sensor-status-item .value,
+  .sensor-status-item {
+    transition: none !important;
+  }
+}
+

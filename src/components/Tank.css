@@ -1,0 +1,94 @@
+.tank-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tank-container {
+  width: 320px;
+  height: 500px;
+  flex-shrink: 0;
+  border: 4px solid rgb(84, 84, 84);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  background: linear-gradient(to bottom, rgba(240, 240, 240, 0.6), rgba(220, 220, 220, 0.4));
+}
+
+.tank-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.tank-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 145px;
+  height: 28px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.color-indicator {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 3px;
+}
+
+.layer {
+  width: 100%;
+  transition: height 0.5s ease-in-out;
+  background-size: cover;
+}
+
+.oil {
+  background-image: linear-gradient(45deg, rgba(255, 204, 0, 0.5) 25%, rgba(255, 170, 0, 0.6) 75%);
+  background-color: #ffcc33;
+}
+
+.water {
+  background-image: radial-gradient(circle, rgba(30, 144, 255, 0.6) 20%, rgba(0, 102, 204, 0.7) 80%);
+  background-color: #4682b4;
+}
+
+.gas {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.4) 20%, transparent 80%);
+  background-color: #dcdcdc;
+}
+
+.foam {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.7) 10%, transparent 60%);
+  background-color: #f0e68c;
+}
+
+.emulsion {
+  background-image: linear-gradient(135deg, rgba(255, 140, 0, 0.6) 30%, rgba(255, 100, 0, 0.7) 70%);
+  background-color: #ffb84d;
+}
+
+.sludge {
+  background-image: linear-gradient(90deg, rgba(101, 67, 33, 0.6) 30%, rgba(80, 50, 20, 0.7) 70%);
+  background-color: #7f5d3e;
+}
+
+.operational-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 4px dashed black;
+  z-index: 30;
+}
