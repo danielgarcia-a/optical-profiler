@@ -1,5 +1,4 @@
-/* petrobras/src/components/SensorStatus.css */
-
+/* Container */
 .sensor-status-container {
   display: flex;
   border: 1px solid #ccc;
@@ -8,15 +7,16 @@
   width: 100%;
   background-color: #fff;
 
-  /* Duraciones/easing sincronizadas con JS (MIN_MASK_MS) */
-  --ss-ease-in: cubic-bezier(0.16, 1, 0.3, 1);   /* entrada suave y rápida */
-  --ss-ease-out: cubic-bezier(0.4, 0, 0.2, 1);   /* salida breve */
-  --ss-dur-in: 200ms;   /* ↓ antes 420ms → aparece más rápido */
-  --ss-dur-out: 120ms;  /* salida algo más corta */
-  --ss-shift: 3px;      /* desplazamiento sutil */
-  --ss-blur: 0.5px;     /* blur mínimo (o pon 0 si quieres) */
+  /* Animation timing — keep in sync with MIN_MASK_MS in SensorStatus.jsx */
+  --ss-ease-in: cubic-bezier(0.16, 1, 0.3, 1);  /* smooth fast entry */
+  --ss-ease-out: cubic-bezier(0.4, 0, 0.2, 1);  /* short exit */
+  --ss-dur-in: 200ms;
+  --ss-dur-out: 120ms;
+  --ss-shift: 3px;   /* subtle vertical shift during transition */
+  --ss-blur: 0.5px;  /* minimal blur during transition */
 }
 
+/* Item */
 .sensor-status-item {
   flex: 1;
   padding: 12px;
@@ -27,11 +27,13 @@
     color var(--ss-dur-in) var(--ss-ease-in);
 }
 
+/* Separator */
 .sensor-status-separator {
   width: 1px;
   background-color: #ccc;
 }
 
+/* Label and value */
 .label {
   font-size: 12px;
   color: #555;
@@ -42,23 +44,23 @@
   font-weight: bold;
   margin-top: 4px;
 
-  /* Números tabulares: menos micro-saltos al actualizar */
+  /* Tabular numbers — prevents layout shifts on value updates */
   font-variant-numeric: tabular-nums;
   -moz-font-feature-settings: "tnum";
   -webkit-font-feature-settings: "tnum";
   font-feature-settings: "tnum";
 }
 
-/* Estados de tráfico */
-.traffic-green { background-color: #d4edda; }
+/* Traffic light status colors */
+.traffic-green  { background-color: #d4edda; }
 .traffic-yellow { background-color: #fff3cd; }
-.traffic-red { background-color: #f8d7da; }
-.traffic-blue { background-color: #79baff; }
+.traffic-red    { background-color: #f8d7da; }
+.traffic-blue   { background-color: #79baff; }
 
-/* Transición en valores */
+/* Value transition — visible state */
 .sensor-status-item .value {
   display: inline-block;
-  min-width: 3.4ch; /* estabilidad de layout */
+  min-width: 3.4ch; /* prevents layout shifts */
   opacity: 1;
   transform: translateY(0) translateZ(0);
   filter: blur(0);
@@ -69,10 +71,10 @@
     opacity var(--ss-dur-in) var(--ss-ease-in),
     transform var(--ss-dur-in) var(--ss-ease-in),
     filter var(--ss-dur-in) var(--ss-ease-in);
-  transition-delay: 0ms; /* sincronizados */
+  transition-delay: 0ms;
 }
 
-/* Durante carga/mascara: fade-out breve y uniforme */
+/* Value transition — loading/masked state */
 .sensor-status-container.is-loading .value {
   opacity: 0;
   transform: translateY(var(--ss-shift)) translateZ(0);
@@ -82,11 +84,10 @@
   transition-delay: 0ms;
 }
 
-/* Accesibilidad: reduce motion */
+/* Accessibility: disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .sensor-status-item .value,
   .sensor-status-item {
     transition: none !important;
   }
 }
-

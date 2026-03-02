@@ -1,11 +1,25 @@
+/**
+ * SensorStatus.jsx
+ *
+ * Displays the current health status of FBG sensors for a selected tank.
+ * Shows active sensors, failures and overall system health percentage
+ * with a traffic light color indicator.
+ *
+ * Includes a per-tank cache to avoid flickering when switching tanks,
+ * and a concurrency guard to prevent stale responses from overwriting state.
+ */
+
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import supabase from '../helper/supabaseClient';
 import './SensorStatus.css';
 
+/**
+ * @param {number|string|null} selectedTank - ID of the currently selected tank.
+ */
 export default function SensorStatus({ selectedTank }) {
   const [fbgValues, setFbgValues] = useState([]);
-  const [loading, setLoading]     = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Concurrency control — prevents stale responses from overwriting state
   const reqIdRef = useRef(0);
@@ -16,7 +30,7 @@ export default function SensorStatus({ selectedTank }) {
   // Per-tank cache: { [tankId]: { values: number[], timestamp: string } }
   const cacheRef = useRef(new Map());
 
-  // Must stay in sync with CSS variable --ss-dur-in
+  // Must stay in sync with CSS variable --ss-dur-in in SensorStatus.css
   const MIN_MASK_MS = 200;
 
   useEffect(() => {
@@ -32,8 +46,8 @@ export default function SensorStatus({ selectedTank }) {
     const myReqId = ++reqIdRef.current;
 
     // 1) If cached, show immediately without loading mask
-    const cached     = cacheRef.current.get(selectedTank);
-    const usedCache  = Boolean(cached);
+    const cached = cacheRef.current.get(selectedTank);
+    const usedCache = Boolean(cached);
 
     if (usedCache) {
       setFbgValues(cached.values);
@@ -61,8 +75,8 @@ export default function SensorStatus({ selectedTank }) {
       } else {
         // Keep only readings from the most recent timestamp
         const latestTimestamp = data[0].data;
-        const latestReadings  = data.filter((r) => r.data === latestTimestamp);
-        const newValues       = latestReadings.map((r) => r.lambda_medido);
+        const latestReadings = data.filter((r) => r.data === latestTimestamp);
+        const newValues = latestReadings.map((r) => r.lambda_medido);
 
         setFbgValues(newValues);
         cacheRef.current.set(selectedTank, { values: newValues, timestamp: latestTimestamp });
@@ -70,7 +84,7 @@ export default function SensorStatus({ selectedTank }) {
 
       if (!usedCache) {
         // Respect minimum mask duration for a consistent fade transition
-        const elapsed   = performance.now() - t0;
+        const elapsed = performance.now() - t0;
         const remaining = Math.max(0, MIN_MASK_MS - elapsed);
 
         const finalize = () => {
@@ -92,21 +106,21 @@ export default function SensorStatus({ selectedTank }) {
 
   // Metrics
   const totalSensors = fbgValues.length;
-  const activeCount  = fbgValues.filter((v) => v !== 0).length;
-  const failCount    = totalSensors - activeCount;
-  const pctActive    = totalSensors > 0 ? Math.round((activeCount / totalSensors) * 100) : 0;
+  const activeCount = fbgValues.filter((v) => v !== 0).length;
+  const failCount = totalSensors - activeCount;
+  const pctActive = totalSensors > 0 ? Math.round((activeCount / totalSensors) * 100) : 0;
 
-  // Traffic light status
+  // Traffic light status — based on percentage of active sensors
   let trafficClass = 'traffic-red';
-  if (pctActive === 100)      trafficClass = 'traffic-blue';
-  else if (pctActive >= 90)   trafficClass = 'traffic-green';
-  else if (pctActive >= 60)   trafficClass = 'traffic-yellow';
+  if (pctActive === 100) trafficClass = 'traffic-blue';
+  else if (pctActive >= 90) trafficClass = 'traffic-green';
+  else if (pctActive >= 60) trafficClass = 'traffic-yellow';
 
   // Visual state flags
   const noTankSelected = selectedTank === null;
-  const isMasked       = selectedTank !== null && settledTankRef.current !== selectedTank;
-  const showTraffic    = !noTankSelected && !isMasked;
-  const NBSP           = '\u00A0';
+  const isMasked = selectedTank !== null && settledTankRef.current !== selectedTank;
+  const showTraffic = !noTankSelected && !isMasked;
+  const NBSP = '\u00A0'; // Non-breaking space used as placeholder during loading
 
   return (
     <div className={`sensor-status-container ${(loading || isMasked) ? 'is-loading' : ''}`}>
@@ -116,18 +130,14 @@ export default function SensorStatus({ selectedTank }) {
           {noTankSelected ? '-' : (isMasked ? NBSP : activeCount)}
         </div>
       </div>
-
       <div className="sensor-status-separator" />
-
       <div className="sensor-status-item">
         <div className="label">Failures</div>
         <div className="value">
           {noTankSelected ? '-' : (isMasked ? NBSP : failCount)}
         </div>
       </div>
-
       <div className="sensor-status-separator" />
-
       <div className={`sensor-status-item ${showTraffic ? trafficClass : ''}`}>
         <div className="label">System status</div>
         <div className="value">
