@@ -13,11 +13,11 @@ import opticsLogo from '../assets/optics2.svg';
 import './Login.css';
 
 const Login = () => {
-  const [email, setEmail]       = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
-  const [loading, setLoading]   = useState(false);
-  const navigate                = useNavigate();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   /** Handles form submission and Supabase authentication. */
   const handleSubmit = async (event) => {
