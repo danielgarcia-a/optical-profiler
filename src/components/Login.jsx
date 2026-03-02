@@ -1,3 +1,10 @@
+/**
+ * Login.jsx
+ *
+ * Authentication screen. Handles user sign-in via Supabase Auth
+ * and redirects to the dashboard on success.
+ */
+
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +19,7 @@ const Login = () => {
   const [loading, setLoading]   = useState(false);
   const navigate                = useNavigate();
 
+  /** Handles form submission and Supabase authentication. */
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
@@ -48,6 +56,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <h1>Sign in</h1>
 
+          {/* Error message shown on failed authentication */}
           {error && <p className="login-error">{error}</p>}
 
           <div className="input-field">
